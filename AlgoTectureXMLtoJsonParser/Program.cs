@@ -10,17 +10,17 @@ namespace AlgoTectureXMLtoJsonParser
 {
     class Program
     {
-        private static Root xmlRoot;
-        private static readonly string  CurrentDirectory = Directory.GetCurrentDirectory();
+        private static readonly string CurrentDirectory = Directory.GetCurrentDirectory();
 
         static void Main(string[] args)
         {
-            DeserializeXml();
-            SerializeJson();
+            SerializeJson(DeserializeXml());
         }
         
-        private static void DeserializeXml()
+        private static Root DeserializeXml()
         {
+            Root xmlRoot;
+            
             string filePath = Path.Combine(CurrentDirectory, "test.xml");
             
             XmlSerializer serializer = new XmlSerializer(typeof(Root));
@@ -29,9 +29,11 @@ namespace AlgoTectureXMLtoJsonParser
             {
                 xmlRoot = (Root)serializer.Deserialize(reader);
             }
+
+            return xmlRoot;
         }
 
-        private static void SerializeJson()
+        private static void SerializeJson(Root xmlRoot)
         {
             int i = 0;
             List<Json.Root> jsonList = new List<Json.Root>();
